@@ -4,12 +4,14 @@ def test_sample_one():
     print('Hai')
 
 def test_sample_two():
-    assert 1 == 1
-
+    a =10
+    b = 10
+    assert a == b
 def test_sample_three():
-    print('pytest')
-
+    a = 10
+    b = 20
+    assert a < b
 def test_sample_four():
-    x =4
-    y = 19
-    assert x != y
+    a = "arun"
+    b = "aruns"
+    assert a.__eq__(b)
