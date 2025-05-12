@@ -72,20 +72,17 @@ def test_setup_and_teardown():
     yield
     driver.quit()
 
-@pytest.mark.usefixtures("test_setup_and_teardown")
-def test_validProduct():
+def test_validProduct(test_setup_and_teardown):
     driver.find_element(By.NAME, value = "search").send_keys("HP")
     driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
     assert driver.find_element(By.XPATH, value = "//h4/a[contains(text(),'HP LP3065')]").is_displayed()
 
-@pytest.mark.usefixtures("test_setup_and_teardown")
-def test_invalid_product():
+def test_invalid_product(test_setup_and_teardown):
     driver.find_element(By.NAME, value = "search").send_keys("Honda")
     driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
     assert driver.find_element(By.XPATH, value = "//input[@id='button-search']/following::h2").is_displayed()
 
-@pytest.mark.usefixtures("test_setup_and_teardown")
-def test_empty_product():
+def test_empty_product(test_setup_and_teardown):
     driver.find_element(By.NAME, value = "search").send_keys("")
     driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
     assert driver.find_element(By.XPATH, value = "//input[@id='button-search']/following::h2").is_displayed()
