@@ -1,4 +1,3 @@
-import pytest
 
 # @pytest.mark.smoke   
 # def test_d():
@@ -28,11 +27,10 @@ import pytest
 # def test_parameterize(ip, expected):
 #     assert ip + 2 == expected
                         
-# --------------------------------------------------------------------------------------#
+# # --------------------------------------------------------------------------------------#
+# import pytest
 
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.by import By
 
 # @pytest.mark.parametrize("search_term", [('Selenium'), ('pytest'), ('Python')])
 # def test_google_search(search_term):
@@ -62,33 +60,72 @@ from selenium.webdriver.common.by import By
     
 # ------------------------------------------------pytest-fixtures--------------------------------------------------
 
-@pytest.fixture()
-def test_setup_and_teardown():
+# @pytest.fixture()
+# def test_setup_and_teardown():
+#     global driver
+#     driver = webdriver.Firefox()
+#     driver.maximize_window()
+#     driver.implicitly_wait(10)
+#     driver.get("https://tutorialsninja.com/demo/")
+#     yield
+#     driver.quit()
+
+# def test_validProduct(test_setup_and_teardown):
+#     driver.find_element(By.NAME, value = "search").send_keys("HP")
+#     driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
+#     assert driver.find_element(By.XPATH, value = "//h4/a[contains(text(),'HP LP3065')]").is_displayed()
+
+# def test_invalid_product(test_setup_and_teardown):
+#     driver.find_element(By.NAME, value = "search").send_keys("Honda")
+#     driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
+#     assert driver.find_element(By.XPATH, value = "//input[@id='button-search']/following::h2").is_displayed()
+
+# def test_empty_product(test_setup_and_teardown):
+#     driver.find_element(By.NAME, value = "search").send_keys("")
+#     driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
+#     assert driver.find_element(By.XPATH, value = "//input[@id='button-search']/following::h2").is_displayed()
+
+# ----------------------------------------------------by using conftest.py------------------------------------------------
+
+# from selenium.webdriver.common.by import By
+# import time
+# from selenium.webdriver.common.by import By
+
+
+
+
+# @pytest.mark.usefixtures("setup_and_tear_down")
+# class TestSearch:
+#     @pytest.mark.parametrize("search_term", [('Selenium'), ('pytest')])
+#     def test_google_search(self, search_term):
+#         self.driver.find_element(By.NAME, value="q").send_keys(search_term)
+#         time.sleep(6)
+#         self.driver.find_element(By.CLASS_NAME, value = "gNO89b").click()
+#         time.sleep(6)
+
+#--------------------------------Pytest Function------------------------------------------------
+
+
+import pytest
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+def setup_function(function):
     global driver
     driver = webdriver.Firefox()
     driver.maximize_window()
     driver.implicitly_wait(10)
-    driver.get("https://tutorialsninja.com/demo/")
-    yield
+    driver.get("https://www.google.co.in")
+
+def teardown_function(function):
     driver.quit()
 
-def test_validProduct(test_setup_and_teardown):
-    driver.find_element(By.NAME, value = "search").send_keys("HP")
-    driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
-    assert driver.find_element(By.XPATH, value = "//h4/a[contains(text(),'HP LP3065')]").is_displayed()
-
-def test_invalid_product(test_setup_and_teardown):
-    driver.find_element(By.NAME, value = "search").send_keys("Honda")
-    driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
-    assert driver.find_element(By.XPATH, value = "//input[@id='button-search']/following::h2").is_displayed()
-
-def test_empty_product(test_setup_and_teardown):
-    driver.find_element(By.NAME, value = "search").send_keys("")
-    driver.find_element(By.XPATH, value = "//button[@class='btn btn-default btn-lg']").click()
-    assert driver.find_element(By.XPATH, value = "//input[@id='button-search']/following::h2").is_displayed()
-
-
-
-
+@pytest.mark.parametrize("search_term", [('Selenium'), ('pytest')])
+def test_google_search( search_term):
+    driver.find_element(By.NAME, value="q").send_keys(search_term)
+    time.sleep(6)
+    driver.find_element(By.CLASS_NAME, value = "gNO89b").click()
+    time.sleep(6)
 
 
