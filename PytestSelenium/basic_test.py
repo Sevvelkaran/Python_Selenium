@@ -110,22 +110,51 @@ import pytest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import read_config
 
-def setup_function(function):
-    global driver
-    driver = webdriver.Firefox()
-    driver.maximize_window()
-    driver.implicitly_wait(10)
-    driver.get("https://www.google.co.in")
 
-def teardown_function(function):
-    driver.quit()
+# def setup_function(function):
+#     global driver
+#     driver = webdriver.Firefox()
+#     driver.maximize_window()
+#     driver.implicitly_wait(10)
+#     driver.get("https://parabank.parasoft.com/parabank/index.htm")
 
-@pytest.mark.parametrize("search_term", [('Selenium'), ('pytest')])
-def test_google_search( search_term):
-    driver.find_element(By.NAME, value="q").send_keys(search_term)
-    time.sleep(6)
-    driver.find_element(By.CLASS_NAME, value = "gNO89b").click()
-    time.sleep(6)
+# def teardown_function(function):
+#     driver.quit()
 
+# def test_register_page():
+#     driver.find_element(By.LINK_TEXT, value = "Register").click()
+#     driver.find_element(By.NAME, value = "customer.firstName").send_keys("karan")
+#     driver.find_element(By.NAME, value = "customer.lastName").send_keys("karan")
+#     driver.find_element(By.NAME, value = "customer.address.street").send_keys("1234")
+#     driver.find_element(By.NAME, value = "customer.address.city").send_keys("IND")
+#     driver.find_element(By.NAME, value = "customer.address.state").send_keys("TN")
+#     driver.find_element(By.NAME, value = "customer.address.zipCode").send_keys("10001")
+#     driver.find_element(By.NAME, value = "customer.phoneNumber").send_keys("1234567890")
+#     driver.find_element(By.NAME, value = "customer.ssn").send_keys("12312")
+#     driver.find_element(By.NAME, value = "customer.username").send_keys("karan123485wd")
+#     driver.find_element(By.NAME, value = "customer.password").send_keys("k@0715")
+#     driver.find_element(By.NAME, value = "repeatedPassword").send_keys("k@0715")
+#     driver.find_element(By.XPATH, value = "//input[@value='Register']").click()
+#     assert driver.title == "ParaBank | Customer Created"
+
+# def test_login_page():
+#     driver.find_element(By.NAME, value = "username").send_keys("karan123485wd")
+#     driver.find_element(By.NAME, value = "password").send_keys("k@0715")
+#     driver.find_element(By.XPATH, value = "//input[@value='Log In']").click()
+#     assert driver.find_element(By.XPATH, value = "//div[@id='showOverview']/h1").is_displayed()
+
+# ---------------------------------Data driven -------------------------------------------------
+@pytest.mark.usefixtures("setup_and_tear_down")
+class TestSearch:
+    def test_valid_login(self):
+        self.driver.find_element(By.ID, value = "login2").click()
+        username = read_config.get_config("Login details", "uname")
+        password = read_config.get_config("Login details", "pass")
+        self.driver.find_element(By.ID, value="loginusername").send_keys(username)
+        self.driver.find_element(By.ID, value="loginpassword").send_keys(password)
+        self.driver.find_element(By.XPATH, value = "//button[text()='Log in']").click() 
+        time.sleep(5)
+        assert self.driver.find_element(By.ID, value="logout2").is_displayed()
 
