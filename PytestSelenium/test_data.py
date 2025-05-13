@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import excelReader
 
-@pytest.mark.parametrize("username,password", excelReader.get_data("./loginData.xlsx","login"
+@pytest.mark.parametrize("username,password", excelReader.get_data("PytestSelenium/loginData.xlsx","login"
 ))
 class TestLog:
 
