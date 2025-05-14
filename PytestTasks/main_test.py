@@ -13,9 +13,10 @@ class TestLogin2:
         self.driver.find_element(By.ID,value="password").send_keys(password)
         self.driver.find_element(By.ID,value="login-button").click()
         time.sleep(5)
-        if(username=="standard_user" or username=="problem_user" or username=="performance_glitch_user"):
-          expected="Products"
-          assert self.driver.find_element(By.XPATH,value="//div[@class='product_label']").text.__eq__(expec)
+        if username in ("standard_user", "problem_user", "performance_glitch_user"):
+          expected = "Products"
+
+          assert self.driver.find_element(By.XPATH,value="//div[@class='product_label']").text.__eq__(expected)
         else:
            expected="Sorry, this user has been locked out."
            assert expected in self.driver.find_element(By.XPATH,value="//h3[@data-test='error']").text
