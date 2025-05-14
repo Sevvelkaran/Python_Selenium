@@ -9,10 +9,10 @@ import excelRead
 class TestLogin2:
     def test_validation1(self,username,password):
         self.driver.find_element(By.ID,value="user-name").send_keys(username)
-        time.sleep(5)
+        time.sleep(2)
         self.driver.find_element(By.ID,value="password").send_keys(password)
         self.driver.find_element(By.ID,value="login-button").click()
-        time.sleep(5)
+        time.sleep(2)
         if username in ("standard_user", "problem_user", "performance_glitch_user"):
           expected = "Products"
 
